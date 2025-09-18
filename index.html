@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Email Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .loader {
+            border-top-color: #3498db;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Phishing Email Analyzer</h1>
+            <p class="text-md text-gray-600 mt-2">Paste the raw source of an email below to get a real-time analysis from the Python backend.</p>
+        </header>
+
+        <main>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <textarea id="emailSource" class="w-full h-64 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste the full email source here (including headers)..."></textarea>
+                <button id="analyzeBtn" class="mt-4 w-full bg-blue-600 text-white py-3 px-4 rounded-md font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Analyze Email</span>
+                </button>
+            </div>
+
+            <div id="loader" class="text-center my-8 hidden">
+                <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24 mx-auto"></div>
+                <p class="mt-4 text-gray-600">Contacting Python server... this may take a moment.</p>
+            </div>
+
+             <div id="errorContainer" class="mt-8 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative hidden" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span class="block sm:inline" id="errorMessage"></span>
+            </div>
+
+            <div id="reportContainer" class="mt-8 hidden">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Analysis Report</h2>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <!-- Summary Section -->
+                    <div id="summary" class="p-6 border-b border-gray-200 text-center">
+                        <p class="text-lg text-gray-600">Risk Score</p>
+                        <p id="riskScore" class="text-6xl font-bold my-2"></p>
+                        <p id="riskLevel" class="text-2xl font-semibold"></p>
+                    </div>
+
+                    <!-- Details Section -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Score Breakdown</h3>
+                        <div id="scoreBreakdown" class="space-y-3"></div>
+                    </div>
+                     <!-- Analysis Details Accordion -->
+                    <div class="p-6 border-t border-gray-200">
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                                <span class="text-xl font-semibold text-gray-800">Analysis Details</span>
+                                <span class="transition group-open:rotate-180">
+                                    <svg fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                                </span>
+                            </summary>
+                            <div class="text-neutral-600 mt-4 group-open:animate-fadeIn">
+                                <div id="detailsContainer" class="space-y-6"></div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- UI & EVENT HANDLING ---
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const emailSourceEl = document.getElementById('emailSource');
+        const reportContainer = document.getElementById('reportContainer');
+        const loader = document.getElementById('loader');
+        const errorContainer = document.getElementById('errorContainer');
+        const errorMessageEl = document.getElementById('errorMessage');
+
+        analyzeBtn.addEventListener('click', async () => {
+            const source = emailSourceEl.value;
+            if (!source.trim()) {
+                alert('Please paste the email source code.');
+                return;
+            }
+
+            // Reset UI
+            reportContainer.classList.add('hidden');
+            errorContainer.classList.add('hidden');
+            loader.classList.remove('hidden');
+            
+            try {
+                // --- Send the email source to the Python backend ---
+                const response = await fetch('http://127.0.0.1:5000/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ source: source }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Server responded with status: ${response.status}`);
+                }
+
+                const report = await response.json();
+                
+                // Display the report received from the Python server
+                displayReport(report);
+                reportContainer.classList.remove('hidden');
+
+            } catch (error) {
+                errorMessageEl.textContent = 'Could not connect to the Python analysis server. Make sure it is running. Details: ' + error.message;
+                errorContainer.classList.remove('hidden');
+            } finally {
+                loader.classList.add('hidden');
+            }
+        });
+        
+        // This function now just displays the data from the backend
+        function displayReport(report) {
+            const { summary, details } = report;
+            const { header_analysis, url_analysis, attachment_analysis, score_breakdown } = details;
+
+            const riskScoreEl = document.getElementById('riskScore');
+            const riskLevelEl = document.getElementById('riskLevel');
+            const breakdownEl = document.getElementById('scoreBreakdown');
+            const detailsContainer = document.getElementById('detailsContainer');
+
+            const score = summary.risk_score;
+            let level = summary.risk_level;
+            let colorClass = 'text-green-600';
+
+            if (level === 'High') { colorClass = 'text-red-600'; }
+            else if (level === 'Medium') { colorClass = 'text-yellow-600'; }
+            else if (level === 'Low') { colorClass = 'text-blue-600'; }
+
+            riskScoreEl.textContent = score;
+            riskScoreEl.className = `text-6xl font-bold my-2 ${colorClass}`;
+            riskLevelEl.textContent = level;
+            riskLevelEl.className = `text-2xl font-semibold ${colorClass}`;
+
+            breakdownEl.innerHTML = score_breakdown.map(item => `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-md">
+                    <span class="text-gray-700">${item.reason}</span>
+                    <span class="font-bold text-red-500">+${item.score}</span>
+                </div>
+            `).join('') || '<p class="text-gray-500">No specific risks detected.</p>';
+
+            detailsContainer.innerHTML = `
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Header Analysis</h4>
+                    <div class="bg-gray-50 p-3 rounded-md text-sm space-y-1">
+                        <p><strong>From:</strong> ${header_analysis.from || 'N/A'}</p>
+                        <p><strong>Return-Path:</strong> ${header_analysis.return_path || 'N/A'}</p>
+                        <p><strong>DKIM Result:</strong> ${header_analysis.dkim_result}</p>
+                        <p><strong>SPF Result:</strong> ${header_analysis.spf_result}</p>
+                        <p><strong>From/Return-Path Mismatch:</strong> ${header_analysis.from_return_path_mismatch}</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">URL Analysis (${url_analysis.length} found)</h4>
+                    <div class="bg-gray-50 p-3 rounded-md text-sm space-y-2">
+                        ${url_analysis.map(u => `
+                            <div class="p-2 border-b last:border-b-0">
+                                <p class="truncate"><strong>URL:</strong> ${u.original_url}</p>
+                                <p><strong>Suspicious:</strong> <span class="font-semibold ${u.is_suspicious ? 'text-red-500' : 'text-green-500'}">${u.is_suspicious}</span></p>
+                                ${u.suspicion_reasons.length > 0 ? `<p><strong>Reasons:</strong> ${u.suspicion_reasons.join(', ')}</p>` : ''}
+                            </div>
+                        `).join('') || '<p>No URLs found or analyzed.</p>'}
+                    </div>
+                </div>
+                 <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Attachment Analysis (${attachment_analysis.length} found)</h4>
+                    <div class="bg-gray-50 p-3 rounded-md text-sm space-y-2">
+                        ${attachment_analysis.map(a => `
+                            <div class="p-2 border-b last:border-b-0">
+                                <p><strong>Filename:</strong> ${a.filename}</p>
+                                <p><strong>Dangerous:</strong> <span class="font-semibold ${a.is_dangerous ? 'text-red-500' : 'text-green-500'}">${a.is_dangerous}</span></p>
+                            </div>
+                        `).join('') || '<p>No attachments found.</p>'}
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+

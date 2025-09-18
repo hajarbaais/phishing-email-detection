@@ -1,0 +1,103 @@
+# File paths for the project
+paths:
+  raw_phishing_data: 'data/raw/phishing/'
+  raw_legitimate_data: 'data/raw/legitimate/'
+  processed_data: 'data/processed/'
+  reports_output: 'outputs/reports/'
+  artifacts_output: 'outputs/artifacts/'
+
+scoring:
+  weights:
+    headers:
+      spf_fail: 20
+      dkim_fail: 20
+      dmarc_fail: 25
+      from_return_path_mismatch: 15
+    urls:
+      suspicious_domain: 30
+      shortened_url: 25
+      ip_address_url: 25
+    attachments:
+      dangerous_file_type: 40
+      zip_with_executable: 50
+
+
+url_analysis:
+  url_keywords:
+    - "signin"
+    - "confirm"
+    - "reset"
+    - "validate"
+    - "authentifaction"
+    - "billing"
+    - "invoice"
+    - "creditcard"
+    - "pay"
+    - "upgrade"
+    - "reward"
+    - "bonus"
+    - "secure-login"
+    - "login"
+    - "verify"
+    - "secure"
+    - "password"
+    - "account"
+    - "bank"
+    - "click"
+    - "update"
+    - "limited"
+    - "alert"
+    - "important"
+
+  url_shorteners:
+    - "bit.ly"
+    - "t.co"
+    - "goo.gl"
+    - "tinyurl.com"
+    - "is.gd"
+    - "cutt.ly"
+    - "rebrand.ly"
+    - "ow.ly"
+    - "buff.ly"
+    - "adf.ly"
+
+  suspicious_tlds:
+    - "xyz"
+    - "zip"
+    - "mov"
+    - "top"
+    - "info"
+    - "live"
+    - "club"
+    - "site"
+    - "buzz"
+    - "work"
+    - "click"
+    - "link"
+    - "tk"
+    - "cf"
+    - "gq"
+
+attachment_analysis:
+  dangerous_extensions:
+    - ".exe"
+    - ".dll"
+    - ".bat"
+    - ".ps1"
+    - ".vbs"
+    - ".js"
+    - ".scr"
+    - ".jar"
+    - ".sh"
+    - ".msi"
+    - ".cmd"
+    - ".cpl"
+    - ".pif"
+    - ".wsf"
+    - ".hta"
+    - ".lnk"
+thresholds:
+  low: 30
+  medium: 60
+  high: 80
+

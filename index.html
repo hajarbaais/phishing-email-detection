@@ -107,7 +107,9 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ source: source }),
+                    // --- CRITICAL FIX IS HERE ---
+                    // The key must match what the Flask server expects ('email_source')
+                    body: JSON.stringify({ email_source: source }),
                 });
 
                 if (!response.ok) {

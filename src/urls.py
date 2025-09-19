@@ -190,4 +190,3 @@ def analyze_all_urls(urls: List[str], config: Dict[str, Any]) -> List[Dict[str, 
                     logger.error(f'URL analysis for {url} generated an exception: {exc}')
     
     return results
-

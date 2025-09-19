@@ -112,4 +112,3 @@ if __name__ == '__main__':
     score_results = calculate_risk_score(dummy_headers, dummy_urls, dummy_attachments, dummy_weights)
     
     print(json.dumps(score_results, indent=2))
-

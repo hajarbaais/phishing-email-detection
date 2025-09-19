@@ -102,4 +102,3 @@ if __name__ == '__main__':
         print(f"Error: The file '{args.email_file}' does not exist.")
     else:
         main(args.email_file)
-

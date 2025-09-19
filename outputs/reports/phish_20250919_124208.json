@@ -1,0 +1,70 @@
+{
+    "metadata": {
+        "email_file": "C:\\Users\\hp\\Desktop\\Phising email detection\\phish.eml",
+        "analysis_timestamp": "2025-09-19T12:42:08.772498",
+        "report_file": "outputs/reports/phish_20250919_124208.json"
+    },
+    "summary": {
+        "risk_score": 95,
+        "risk_level": "High"
+    },
+    "details": {
+        "header_analysis": {
+            "spf_result": "not_checked",
+            "dkim_result": "fail",
+            "dmarc_result": "pass",
+            "from_return_path_mismatch": true,
+            "from": "\"Security Team\" <security@yourbank.com>",
+            "return_path": "<notify@ex-ample.com>"
+        },
+        "url_analysis": [
+            {
+                "original_url": "http://example.com/track/open.gif?id=8234",
+                "final_url": "http://example.com/track/open.gif?id=8234",
+                "is_suspicious": false,
+                "suspicion_reasons": [
+                    "NOT_USING_HTTPS"
+                ],
+                "domain_age_days": 10994
+            },
+            {
+                "original_url": "http://example.com/confirm?uid=8234&src=email",
+                "final_url": "http://example.com/confirm?uid=8234&src=email",
+                "is_suspicious": true,
+                "suspicion_reasons": [
+                    "SUSPICIOUS_KEYWORDS_IN_URL",
+                    "NOT_USING_HTTPS"
+                ],
+                "domain_age_days": 10994
+            },
+            {
+                "original_url": "https://yourbank.com/secure-login",
+                "final_url": "https://yourbank.com/secure-login",
+                "is_suspicious": true,
+                "suspicion_reasons": [
+                    "SUSPICIOUS_KEYWORDS_IN_URL"
+                ],
+                "domain_age_days": 10340
+            }
+        ],
+        "attachment_analysis": [],
+        "score_breakdown": [
+            {
+                "reason": "DKIM Check Failed",
+                "score": 20
+            },
+            {
+                "reason": "From/Return-Path Mismatch",
+                "score": 15
+            },
+            {
+                "reason": "Suspicious URL (http://example.com/confirm?uid=8234&src=email)",
+                "score": 30
+            },
+            {
+                "reason": "Suspicious URL (https://yourbank.com/secure-login)",
+                "score": 30
+            }
+        ]
+    }
+}

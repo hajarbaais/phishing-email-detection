@@ -1,50 +1,57 @@
-Return-Path: no-reply@google.com
-Received: from https://www.google.com/search?q=mail-sorter-f69.google.com (https://www.google.com/search?q=mail-sorter-f69.google.com [209.85.220.69])
-by mx.yourdomain.test with ESMTP id 54321; Thu, 18 Sep 2025 15:50:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-d=google.com; s=20230601;
-h=from:to:subject:date:message-id:mime-version;
-bh=...;
-b=...
-From: Google no-reply@google.com
-To: "Test User" user@test.local
-Subject: Security alert: Your password was changed
-Date: Thu, 18 Sep 2025 15:50:00 +0100
-Message-ID: notification-20250918-155000@google.com
+Return-Path: <notify@ex-ample.com>
+Received: from mail.ex-ample.com (mail.ex-ample.com [192.0.2.45])
+	by mx.yourdomain.test with ESMTP id 12345; Tue, 16 Sep 2025 16:30:00 +0100
+From: "Security Team" <security@yourbank.com>
+Reply-To: support@unrelated-help.example.org
+To: "Test User" <user@test.local>
+Subject: URGENT — Verify your account NOW to avoid suspension
+Date: Tue, 16 Sep 2025 16:30:00 +0100
+Message-ID: <phish-test-20250916-163000@example.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="----=_SafeBoundary_001"
+Content-Type: multipart/alternative; boundary="----=_PhishBoundary_001"
 
-------=_SafeBoundary_001
+------=_PhishBoundary_001
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Test User,
+Dear Customer,
 
-The password for your Google Account was recently changed.
+We detected suspicious activity on your account. To prevent permanent suspension, you MUST verify your account now.
 
-If you made this change, you can safely disregard this email.
+Click here to verify:
+https://yourbank.com/secure-login
 
-If you did not make this change, please secure your account.
+If you do not verify within 24 hours your account will be locked.
 
-For more details, visit the security notifications page:
-https://myaccount.google.com/notifications
+Regards,
+Security Team
+Your Bank
 
-Thanks,
-The Google Accounts Team
-
-------=_SafeBoundary_001
+------=_PhishBoundary_001
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 <html>
-<body>
-<p>Hi Test User,</p>
-<p>The password for your Google Account was recently changed.</p>
-<p>If you made this change, you can safely disregard this email.</p>
-<p>If you did not make this change, please <a href="https://myaccount.google.com/security-checkup">secure your account</a>.</p>
-<p>For more details, visit the <a href="https://myaccount.google.com/notifications">security notifications page</a>.</p>
-<p>Thanks,<br/>The Google Accounts Team</p>
-</body>
+  <body>
+    <p>Dear Customer,</p>
+
+    <p><strong>We detected suspicious activity on your account.</strong> To prevent <em>permanent suspension</em>, you must verify your account immediately.</p>
+
+    <p style="font-size:16px;">
+      <a href="http://example.com/confirm?uid=8234&src=email" target="_blank">Verify your account now</a>
+    </p>
+
+    <p>Or paste the link below into your browser:<br/>
+      https://yourbank.com/secure-login</p>
+
+    <p>Failure to verify within <strong>24 hours</strong> will result in account lock.</p>
+
+    <p>Thanks,<br/>Security Team — <span title="Official">YourBank</span></p>
+
+    <!-- tracking pixel -->
+    <img src="http://example.com/track/open.gif?id=8234" alt="" width="1" height="1" style="display:none;" />
+
+  </body>
 </html>
 
-------=_SafeBoundary_001--
+------=_PhishBoundary_001--

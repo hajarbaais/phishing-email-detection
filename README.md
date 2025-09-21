@@ -1,92 +1,132 @@
-Phishing Email Analyzer
-A comprehensive tool to analyze email files (.eml) for signs of phishing. This project uses a multi-layered approach, examining email headers, URLs, and attachments to calculate a risk score. It includes both a command-line interface (CLI) for detailed analysis and a user-friendly web interface for quick checks.
+# Phishing Email Analyzer 🛡️
 
-<!-- You can replace this with a screenshot of your GUI -->
+![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](#-running-tests)
 
-Features
-Header Analysis: Checks for email authentication standards like DKIM, SPF, and DMARC, and flags mismatches between the From and Return-Path headers.
+An advanced, multi-layered tool to analyze email files (`.eml`) and source code for phishing indicators. This analyzer provides a comprehensive risk score based on deep analysis of headers, URLs, and attachments, accessible via both a modern web interface and a powerful command-line tool.
 
-URL Analysis: Extracts all URLs from the email body, checks them against lists of known URL shorteners and suspicious Top-Level Domains (TLDs), and scans for deceptive keywords.
+---
 
-Attachment Scanning: Safely inspects email attachments, flagging dangerous file types and checking inside .zip files for executables without writing to disk.
+## ✨ Key Features
 
-Risk Scoring: A configurable weighting system aggregates findings from all analyses to produce a final risk score (0-100).
+* **Deep Header Analysis:** Validates email authentication standards (**SPF, DKIM, DMARC**) and detects header anomalies and spoofing indicators.
+* **Intelligent URL Scanning:** Extracts and scrutinizes all URLs, checking them against malicious TLDs, known URL shorteners, and identifying deceptive keywords.
+* **Safe Attachment Inspection:** Analyzes attachment metadata for dangerous file types and inspects archive contents (`.zip`) without writing to disk.
+* **Configurable Risk Scoring:** A flexible scoring engine defined in `config.yaml` allows for customized weighting of various risk factors.
+* **Dual Interface:**
+    * **Web Application (`app.py`):** A user-friendly interface powered by Flask for easy, on-the-fly analysis.
+    * **Command-Line Tool (`main.py`):** A powerful CLI for batch processing, integration into other scripts, and detailed JSON report generation.
+* **Thoroughly Tested:** The project includes a dedicated test suite to ensure reliability and accuracy.
 
-Dual Interfaces:
+---
 
-Command-Line Tool (main.py): For power users and integration, providing detailed logs and generating JSON reports.
+## 🚀 Tech Stack
 
-Web GUI (index.html): An easy-to-use, single-file interface for users to paste email source code and get an instant analysis in their browser.
+* **Backend:** Python 3.9+, Flask
+* **Frontend:** HTML, CSS, JavaScript
+* **Testing:** Pytest
 
-Project Structure
-phish-detection/
-│
-├─ config/
-│  └─ config.yaml        # Scoring weights and analysis keywords
-├─ data/
-│  └─ raw/               # Directory for test .eml files
-├─ outputs/
-│  └─ reports/           # Generated JSON reports from the CLI
-├─ src/
-│  ├─ ingest.py
-│  ├─ headers.py
-│  ├─ urls.py
-│  ├─ attachments.py
-│  ├─ scoring.py
-│  └─ report.py
-│
-├─ index.html            # User-friendly Web Interface
-├─ main.py               # Main script for the Command-Line Interface
-├─ requirements.txt      # Python dependencies
-└─ README.md             # This file
+---
 
-Getting Started
-Prerequisites
-Python 3.8+
+## 🔧 Installation & Setup
 
-Git
+Follow these steps to set up the project environment.
 
-Installation
-Clone the repository:
+1.  **Clone the Repository**
+    ```bash
+    git clone [https://github.com/YourUsername/PhishingEmailDetection.git](https://github.com/YourUsername/PhishingEmailDetection.git)
+    cd PhishingEmailDetection
+    ```
 
-git clone [https://github.com/YourUsername/phishing-email-analyzer.git](https://github.com/YourUsername/phishing-email-analyzer.git)
-cd phishing-email-analyzer
+2.  **Create and Activate a Virtual Environment**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 
-Create a virtual environment (recommended):
+3.  **Install Dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+---
 
-Install the required dependencies:
+## 🛠️ Usage
 
-pip install -r requirements.txt
+This analyzer can be used in two ways: through the easy-to-use web interface or the powerful command-line tool.
 
-How to Use
-This project offers two ways to analyze emails.
+### 1. Web Interface
 
-Option 1: Web Interface (Easy)
-Open the index.html file in your web browser (e.g., Chrome, Firefox).
+The web interface is ideal for quick, interactive analysis.
 
-In your email client (like Gmail or Outlook), find the email you want to analyze and select the "Show Original" or "View Source" option.
+1.  **Start the Flask Application:**
+    ```bash
+    python app.py
+    ```
+2.  Open your web browser and navigate to `http://127.0.0.1:5000`.
+3.  In your email client, view the raw source of the suspicious email ("Show Original" in Gmail) and copy it.
+4.  Paste the content into the text area on the web page and click "Analyze".
 
-Copy the entire raw email source.
 
-Paste the source code into the text box on the webpage and click Analyze Email.
+### 2. Command-Line Interface (CLI)
 
-View the instant report.
+The CLI is perfect for power users and for integrating the analysis into automated workflows.
 
-Option 2: Command-Line Tool (Advanced)
-Save the email you want to analyze as a .eml file.
+1.  Place the emails you want to analyze (as `.eml` files) in the `data/raw/` directory.
+2.  Run the `main.py` script, providing the path to the email file as an argument.
+    ```bash
+    python main.py data/raw/suspicious-email.eml
+    ```
+3.  A detailed JSON report will be generated and saved in the `outputs/reports/` directory, timestamped for uniqueness.
 
-Run the main.py script from your terminal, providing the path to the .eml file.
+---
 
-python main.py /path/to/your/email.eml
+## 🧪 Running Tests
 
-On Windows, remember to use quotes if your path contains spaces:
+A full suite of tests is included to ensure the reliability of the analysis modules. To run the tests, execute the following command from the project's root directory:
 
-python main.py "C:\Path With Spaces\email.eml"
+```bash
+pytest
+```
 
-A detailed JSON report will be generated and saved in the outputs/reports/ directory.
 
-Configuration
-All analysis parameters and scoring weights can be adjusted in the config/config.yaml file. You can add new keywords, dangerous file extensions, and change the points assigned for each risk factor.
+### 3. Configuration
+
+The analysis logic and scoring weights can be fully customized by editing the config/config.yaml file. Here you can define:
+
+Points assigned to each risk factor.
+
+Lists of suspicious keywords and TLDs.
+
+Known safe senders.
+
+
+### 4.Project Structure
+
+```bash
+PhishingEmailDetection/
+├── config/
+│   └── config.yaml         # Main configuration for scoring and keywords
+├── data/
+│   ├── processed/          # Processed data (if any)
+│   └── raw/                # Place raw .eml files here
+├── outputs/
+│   ├── artifacts/          # For generated models or other artifacts
+│   └── reports/            # Output directory for JSON reports
+├── src/
+│   ├── utils/              # Utility functions
+│   ├── __init__.py
+│   ├── attachments.py      # Attachment analysis module
+│   ├── headers.py          # Header analysis module
+│   ├── ingest.py           # Data ingestion and parsing
+│   ├── report.py           # Report generation logic
+│   ├── scoring.py          # Risk scoring engine
+│   └── urls.py             # URL analysis module
+├── tests/                  # Test suite for all modules
+├── app.py                  # Flask application for the web UI
+├── index.html              # Frontend for the web UI
+├── main.py                 # CLI entry point
+├── requirements.txt        # Project dependencies
+└── README.md               # This file
+```

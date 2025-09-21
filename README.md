@@ -17,7 +17,8 @@ A multi-layered tool to analyze email files (`.eml`) and source code for phishin
 - [Project Structure](#-project-structure)
 ---
 
-##  Key Features
+
+## ✨ Key Features
 
 * **Deep Header Analysis:** Validates email authentication standards (**SPF, DKIM, DMARC**) and detects header anomalies and spoofing indicators.
 * **Intelligent URL Scanning:** Extracts and scrutinizes all URLs, checking them against malicious TLDs, known URL shorteners, and identifying deceptive keywords.
@@ -30,7 +31,7 @@ A multi-layered tool to analyze email files (`.eml`) and source code for phishin
 
 ---
 
-##  Tech Stack
+## 🚀 Tech Stack
 
 * **Backend:** Python 3.9+, Flask
 * **Frontend:** HTML, CSS, JavaScript
@@ -38,7 +39,7 @@ A multi-layered tool to analyze email files (`.eml`) and source code for phishin
 
 ---
 
-## Installation & Setup
+## 🔧 Installation & Setup
 
 Follow these steps to set up the project environment.
 
@@ -61,7 +62,7 @@ Follow these steps to set up the project environment.
 
 ---
 
-##  Usage
+## 🛠️ Usage
 
 This analyzer can be used in two ways: through the easy-to-use web interface or the powerful command-line tool.
 
@@ -78,6 +79,7 @@ The web interface is ideal for quick, interactive analysis.
 4.  Paste the content into the text area on the web page and click "Analyze".
 
 
+
 ### 2. Command-Line Interface (CLI)
 
 The CLI is perfect for power users and for integrating the analysis into automated workflows.
@@ -91,14 +93,13 @@ The CLI is perfect for power users and for integrating the analysis into automat
 
 ---
 
-##  Running Tests
+## 🧪 Running Tests
 
 A full suite of tests is included to ensure the reliability of the analysis modules. To run the tests, execute the following command from the project's root directory:
 
 ```bash
 pytest
 ```
-
 
 ### 3. Configuration
 

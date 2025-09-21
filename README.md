@@ -101,7 +101,7 @@ A full suite of tests is included to ensure the reliability of the analysis modu
 pytest
 ```
 
-### 3. Configuration
+## Configuration
 
 The analysis logic and scoring weights can be fully customized by editing the config/config.yaml file. Here you can define:
 
@@ -112,7 +112,7 @@ Lists of suspicious keywords and TLDs.
 Known safe senders.
 
 
-### 4.Project Structure
+## Project Structure
 
 ```bash
 PhishingEmailDetection/

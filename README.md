@@ -4,6 +4,18 @@
 A multi-layered tool to analyze email files (`.eml`) and source code for phishing indicators. This analyzer provides a comprehensive risk score based on deep analysis of headers, URLs, and attachments, accessible via both a modern web interface and a powerful command-line tool.
 
 ---
+##  Table of Contents
+
+- [Key Features](#-key-features)
+- [Tech Stack](#-tech-stack)
+- [Installation & Setup](#-installation--setup)
+- [Usage](#️-usage)
+  - [Web Interface](#1-web-interface)
+  - [Command-Line Interface (CLI)](#2-command-line-interface-cli)
+- [Running Tests](#-running-tests)
+- [Configuration](#️-configuration)
+- [Project Structure](#-project-structure)
+---
 
 ##  Key Features
 

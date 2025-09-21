@@ -13,8 +13,8 @@ A multi-layered tool to analyze email files (`.eml`) and source code for phishin
   - [Web Interface](#1-web-interface)
   - [Command-Line Interface (CLI)](#2-command-line-interface-cli)
 - [Running Tests](#-running-tests)
-- [Configuration](#️-configuration)
-- [Project Structure](#-project-structure)
+- [Configuration](#️-Configuration)
+- [Project Structure](#-Project-structure)
 ---
 
 
@@ -101,7 +101,7 @@ A full suite of tests is included to ensure the reliability of the analysis modu
 pytest
 ```
 
-## Configuration
+##  Configuration
 
 The analysis logic and scoring weights can be fully customized by editing the config/config.yaml file. Here you can define:
 

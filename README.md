@@ -112,7 +112,7 @@ Lists of suspicious keywords and TLDs.
 Known safe senders.
 
 
-## Project Structure
+## 📂 Project Structure
 
 ```bash
 PhishingEmailDetection/

@@ -1,14 +1,11 @@
-# Phishing Email Analyzer 🛡️
+# Phishing Email Analyzer 
 
-![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](#-running-tests)
 
-An advanced, multi-layered tool to analyze email files (`.eml`) and source code for phishing indicators. This analyzer provides a comprehensive risk score based on deep analysis of headers, URLs, and attachments, accessible via both a modern web interface and a powerful command-line tool.
+A multi-layered tool to analyze email files (`.eml`) and source code for phishing indicators. This analyzer provides a comprehensive risk score based on deep analysis of headers, URLs, and attachments, accessible via both a modern web interface and a powerful command-line tool.
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 * **Deep Header Analysis:** Validates email authentication standards (**SPF, DKIM, DMARC**) and detects header anomalies and spoofing indicators.
 * **Intelligent URL Scanning:** Extracts and scrutinizes all URLs, checking them against malicious TLDs, known URL shorteners, and identifying deceptive keywords.
@@ -21,7 +18,7 @@ An advanced, multi-layered tool to analyze email files (`.eml`) and source code 
 
 ---
 
-## 🚀 Tech Stack
+##  Tech Stack
 
 * **Backend:** Python 3.9+, Flask
 * **Frontend:** HTML, CSS, JavaScript
@@ -29,7 +26,7 @@ An advanced, multi-layered tool to analyze email files (`.eml`) and source code 
 
 ---
 
-## 🔧 Installation & Setup
+## Installation & Setup
 
 Follow these steps to set up the project environment.
 
@@ -52,7 +49,7 @@ Follow these steps to set up the project environment.
 
 ---
 
-## 🛠️ Usage
+##  Usage
 
 This analyzer can be used in two ways: through the easy-to-use web interface or the powerful command-line tool.
 
@@ -82,7 +79,7 @@ The CLI is perfect for power users and for integrating the analysis into automat
 
 ---
 
-## 🧪 Running Tests
+##  Running Tests
 
 A full suite of tests is included to ensure the reliability of the analysis modules. To run the tests, execute the following command from the project's root directory:
 
